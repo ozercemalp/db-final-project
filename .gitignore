@@ -1,0 +1,10 @@
+# Testing Files
+/tests/
+
+# Environment Files
+.env
+.env.local
+
+# VSCode Settings
+.vscode/
+
