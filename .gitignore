@@ -8,3 +8,6 @@
 # VSCode Settings
 .vscode/
 
+# MacOS System Files
+.DS_Store
+
