@@ -11,3 +11,5 @@
 # MacOS System Files
 .DS_Store
 
+# Oracle Diagrams
+/diagrams/
