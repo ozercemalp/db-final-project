@@ -10,7 +10,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_is_admin IN NUMBER
     ) IS
     BEGIN
-        INSERT INTO db_project_example.USERS (
+        INSERT INTO USERS (
             USER_ID, USERNAME, EMAIL, PASSWORD_HASH, PROFILE_PICTURE, CREATED_AT, IS_ADMIN
         ) VALUES (
             p_user_id,
@@ -31,7 +31,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_description IN CLOB
     ) IS
     BEGIN
-        INSERT INTO db_project_example.CHANNELS (
+        INSERT INTO CHANNELS (
             CHANNEL_ID, CHANNEL_NAME, DESCRIPTION
         ) VALUES (
             p_channel_id,
@@ -50,7 +50,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_channel_id IN NUMBER
     ) IS
     BEGIN
-        INSERT INTO db_project_example.ENTRIES (
+        INSERT INTO ENTRIES (
             ENTRY_ID, TITLE, CONTENT, USER_ID, CHANNEL_ID, CREATED_AT, UPDATED_AT
         ) VALUES (
             p_entry_id,
@@ -73,7 +73,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_is_read IN NUMBER
     ) IS
     BEGIN
-        INSERT INTO db_project_example.MESSAGES (
+        INSERT INTO MESSAGES (
             MESSAGE_ID, SENDER_ID, RECEIVER_ID, CONTENT, SENT_AT, IS_READ
         ) VALUES (
             p_message_id,
@@ -94,7 +94,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_content IN CLOB
     ) IS
     BEGIN
-        INSERT INTO db_project_example.COMMENTS (
+        INSERT INTO COMMENTS (
             COMMENT_ID, ENTRY_ID, USER_ID, CONTENT, CREATED_AT
         ) VALUES (
             p_comment_id,
@@ -114,7 +114,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_user_id IN NUMBER
     ) IS
     BEGIN
-        INSERT INTO db_project_example.LIKES (
+        INSERT INTO LIKES (
             LIKE_ID, ENTRY_ID, COMMENT_ID, USER_ID, CREATED_AT
         ) VALUES (
             p_like_id,
@@ -136,7 +136,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_status IN VARCHAR2
     ) IS
     BEGIN
-        INSERT INTO db_project_example.REPORTS (
+        INSERT INTO REPORTS (
             REPORT_ID, USER_ID, ENTRY_ID, COMMENT_ID, REASON, CREATED_AT, STATUS
         ) VALUES (
             p_report_id,
@@ -157,7 +157,7 @@ CREATE OR REPLACE PACKAGE BODY insert_pkg AS
         p_entry_id IN NUMBER
     ) IS
     BEGIN
-        INSERT INTO db_project_example.SAVED_ENTRIES (
+        INSERT INTO SAVED_ENTRIES (
             SAVED_ID, USER_ID, ENTRY_ID, SAVED_AT
         ) VALUES (
             p_saved_id,
@@ -183,7 +183,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_is_admin IN NUMBER
     ) IS
     BEGIN
-        UPDATE db_project_example.USERS
+        UPDATE USERS
         SET USERNAME = p_username,
             EMAIL = p_email,
             PASSWORD_HASH = p_password_hash,
@@ -201,7 +201,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_description IN CLOB
     ) IS
     BEGIN
-        UPDATE db_project_example.CHANNELS
+        UPDATE CHANNELS
         SET CHANNEL_NAME = p_channel_name,
             DESCRIPTION = p_description
         WHERE CHANNEL_ID = p_channel_id;
@@ -216,7 +216,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_content IN CLOB
     ) IS
     BEGIN
-        UPDATE db_project_example.ENTRIES
+        UPDATE ENTRIES
         SET TITLE = p_title,
             CONTENT = p_content,
             UPDATED_AT = SYSTIMESTAMP
@@ -233,7 +233,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_user_id IN NUMBER
     ) IS
     BEGIN
-        UPDATE db_project_example.LIKES
+        UPDATE LIKES
         SET ENTRY_ID = p_entry_id,
             COMMENT_ID = p_comment_id,
             USER_ID = p_user_id,
@@ -255,7 +255,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_is_read IN NUMBER
     ) IS
     BEGIN
-        UPDATE db_project_example.MESSAGES
+        UPDATE MESSAGES
         SET CONTENT = p_content,
             IS_READ = p_is_read
         WHERE MESSAGE_ID = p_message_id;
@@ -269,7 +269,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_content IN CLOB
     ) IS
     BEGIN
-        UPDATE db_project_example.COMMENTS
+        UPDATE COMMENTS
         SET CONTENT = p_content
         WHERE COMMENT_ID = p_comment_id;
 
@@ -282,7 +282,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_status IN VARCHAR2
     ) IS
     BEGIN
-        UPDATE db_project_example.REPORTS
+        UPDATE REPORTS
         SET STATUS = p_status
         WHERE REPORT_ID = p_report_id;
 
@@ -295,7 +295,7 @@ CREATE OR REPLACE PACKAGE BODY update_pkg AS
         p_entry_id IN NUMBER
     ) IS
     BEGIN
-        UPDATE db_project_example.SAVED_ENTRIES
+        UPDATE SAVED_ENTRIES
         SET ENTRY_ID = p_entry_id
         WHERE SAVED_ID = p_saved_id;
 
@@ -310,21 +310,21 @@ CREATE OR REPLACE PACKAGE BODY delete_pkg AS
     -- USERS -
     PROCEDURE delete_from_users(p_user_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.USERS WHERE USER_ID = p_user_id;
+        DELETE FROM USERS WHERE USER_ID = p_user_id;
         DBMS_OUTPUT.PUT_LINE('User deleted successfully: ' || p_user_id);
     END delete_from_users;
 
     -- CHANNELS -
     PROCEDURE delete_from_channels(p_channel_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.CHANNELS WHERE CHANNEL_ID = p_channel_id;
+        DELETE FROM CHANNELS WHERE CHANNEL_ID = p_channel_id;
         DBMS_OUTPUT.PUT_LINE('Channel deleted successfully: ' || p_channel_id);
     END delete_from_channels;
 
     -- ENTRIES -
     PROCEDURE delete_from_entries(p_entry_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.ENTRIES WHERE ENTRY_ID = p_entry_id;
+        DELETE FROM ENTRIES WHERE ENTRY_ID = p_entry_id;
         DBMS_OUTPUT.PUT_LINE('Entry deleted successfully: ' || p_entry_id);
     END delete_from_entries;
 
@@ -334,7 +334,7 @@ CREATE OR REPLACE PACKAGE BODY delete_pkg AS
     p_like_id IN NUMBER
     ) IS
     BEGIN
-    DELETE FROM db_project_example.LIKES
+    DELETE FROM LIKES
     WHERE LIKE_ID = p_like_id;
 
     IF SQL%ROWCOUNT > 0 THEN
@@ -348,28 +348,28 @@ CREATE OR REPLACE PACKAGE BODY delete_pkg AS
     -- MESSAGES -
     PROCEDURE delete_from_messages(p_message_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.MESSAGES WHERE MESSAGE_ID = p_message_id;
+        DELETE FROM MESSAGES WHERE MESSAGE_ID = p_message_id;
         DBMS_OUTPUT.PUT_LINE('Message deleted successfully: ' || p_message_id);
     END delete_from_messages;
 
     -- COMMENTS -
     PROCEDURE delete_from_comments(p_comment_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.COMMENTS WHERE COMMENT_ID = p_comment_id;
+        DELETE FROM COMMENTS WHERE COMMENT_ID = p_comment_id;
         DBMS_OUTPUT.PUT_LINE('Comment deleted successfully: ' || p_comment_id);
     END delete_from_comments;
 
     -- REPORTS -
     PROCEDURE delete_from_reports(p_report_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.REPORTS WHERE REPORT_ID = p_report_id;
+        DELETE FROM REPORTS WHERE REPORT_ID = p_report_id;
         DBMS_OUTPUT.PUT_LINE('Report deleted successfully: ' || p_report_id);
     END delete_from_reports;
 
     -- SAVED_ENTRIES -
     PROCEDURE delete_from_saved_entries(p_saved_id IN NUMBER) IS
     BEGIN
-        DELETE FROM db_project_example.SAVED_ENTRIES WHERE SAVED_ID = p_saved_id;
+        DELETE FROM SAVED_ENTRIES WHERE SAVED_ID = p_saved_id;
         DBMS_OUTPUT.PUT_LINE('Saved Entry deleted successfully: ' || p_saved_id);
     END delete_from_saved_entries;
 
@@ -381,12 +381,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
     -- Delete USERS Duplicates
     PROCEDURE delete_duplicates_from_users IS
     BEGIN
-        DELETE FROM db_project_example.USERS
+        DELETE FROM USERS
         WHERE user_id IN (
             SELECT user_id
             FROM (
                 SELECT user_id, ROW_NUMBER() OVER (PARTITION BY username, email ORDER BY user_id) AS row_num
-                FROM db_project_example.USERS
+                FROM USERS
             )
             WHERE row_num > 1
         );
@@ -395,12 +395,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_entries IS
     BEGIN
-        DELETE FROM db_project_example.ENTRIES
+        DELETE FROM ENTRIES
         WHERE entry_id IN (
             SELECT entry_id
             FROM (
                 SELECT entry_id, ROW_NUMBER() OVER (PARTITION BY title, content ORDER BY entry_id) AS row_num
-                FROM db_project_example.ENTRIES
+                FROM ENTRIES
             )
             WHERE row_num > 1
         );
@@ -409,12 +409,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_channels IS
     BEGIN
-        DELETE FROM db_project_example.CHANNELS
+        DELETE FROM CHANNELS
         WHERE channel_id IN (
             SELECT channel_id
             FROM (
                 SELECT channel_id, ROW_NUMBER() OVER (PARTITION BY channel_name ORDER BY channel_id) AS row_num
-                FROM db_project_example.CHANNELS
+                FROM CHANNELS
             )
             WHERE row_num > 1
         );
@@ -423,12 +423,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_messages IS
     BEGIN
-        DELETE FROM db_project_example.MESSAGES
+        DELETE FROM MESSAGES
         WHERE message_id IN (
             SELECT message_id
             FROM (
                 SELECT message_id, ROW_NUMBER() OVER (PARTITION BY sender_id, receiver_id, content ORDER BY message_id) AS row_num
-                FROM db_project_example.MESSAGES
+                FROM MESSAGES
             )
             WHERE row_num > 1
         );
@@ -437,12 +437,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_comments IS
     BEGIN
-        DELETE FROM db_project_example.COMMENTS
+        DELETE FROM COMMENTS
         WHERE comment_id IN (
             SELECT comment_id
             FROM (
                 SELECT comment_id, ROW_NUMBER() OVER (PARTITION BY entry_id, user_id, content ORDER BY comment_id) AS row_num
-                FROM db_project_example.COMMENTS
+                FROM COMMENTS
             )
             WHERE row_num > 1
         );
@@ -451,12 +451,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_reports IS
     BEGIN
-        DELETE FROM db_project_example.REPORTS
+        DELETE FROM REPORTS
         WHERE report_id IN (
             SELECT report_id
             FROM (
                 SELECT report_id, ROW_NUMBER() OVER (PARTITION BY user_id, entry_id, comment_id ORDER BY report_id) AS row_num
-                FROM db_project_example.REPORTS
+                FROM REPORTS
             )
             WHERE row_num > 1
         );
@@ -465,12 +465,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_saved_entries IS
     BEGIN
-        DELETE FROM db_project_example.SAVED_ENTRIES
+        DELETE FROM SAVED_ENTRIES
         WHERE saved_id IN (
             SELECT saved_id
             FROM (
                 SELECT saved_id, ROW_NUMBER() OVER (PARTITION BY user_id, entry_id ORDER BY saved_id) AS row_num
-                FROM db_project_example.SAVED_ENTRIES
+                FROM SAVED_ENTRIES
             )
             WHERE row_num > 1
         );
@@ -479,12 +479,12 @@ CREATE OR REPLACE PACKAGE BODY delete_duplicates_pkg AS
 
     PROCEDURE delete_duplicates_from_likes IS
     BEGIN
-        DELETE FROM db_project_example.LIKES
+        DELETE FROM LIKES
         WHERE like_id IN (
             SELECT like_id
             FROM (
                 SELECT like_id, ROW_NUMBER() OVER (PARTITION BY entry_id, comment_id, user_id ORDER BY like_id) AS row_num
-                FROM db_project_example.LIKES
+                FROM LIKES
             )
             WHERE row_num > 1
         );

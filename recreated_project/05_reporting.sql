@@ -10,8 +10,8 @@ BEGIN
     -- Query Entries and Comments Together
     FOR entry_comment_rec IN (
         SELECT e.TITLE AS ENTRY_TITLE, c.CONTENT AS COMMENT_CONTENT
-        FROM db_project_example.ENTRIES e
-        LEFT JOIN db_project_example.COMMENTS c
+        FROM ENTRIES e
+        LEFT JOIN COMMENTS c
         ON e.ENTRY_ID = c.ENTRY_ID
         WHERE e.USER_ID = v_user_id
         AND e.CREATED_AT BETWEEN v_start_date AND v_end_date
