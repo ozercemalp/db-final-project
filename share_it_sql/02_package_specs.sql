@@ -117,9 +117,18 @@ CREATE OR REPLACE PACKAGE shareit_pkg AS
       p_comment_id IN NUMBER
    );
 
-    -- Requirement #10: Delete duplicate records
-    -- Clean up duplicate subscriptions if they somehow occur.
-   PROCEDURE remove_duplicate_subscriptions;
+   -- =========================================================================
+   --  MAINTENANCE (Requirement #10)
+   -- =========================================================================
+
+   -- Remove duplicate reports (spam) from the same user on the same item.
+   PROCEDURE remove_duplicate_reports;
+
+   -- Remove duplicate posts (same user, same title, same content, same subforum)
+   PROCEDURE remove_duplicate_posts;
+
+   -- Remove duplicate comments (same user, same post, same text)
+   PROCEDURE remove_duplicate_comments;
 
 END shareit_pkg;
 /

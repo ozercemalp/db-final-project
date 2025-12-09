@@ -466,24 +466,65 @@ CREATE OR REPLACE PACKAGE BODY shareit_pkg AS
    --  MAINTENANCE
    -- =========================================================================
 
-   PROCEDURE remove_duplicate_subscriptions IS
+   PROCEDURE remove_duplicate_reports IS
    BEGIN
-      DELETE FROM user_subscriptions a
+      DELETE FROM reports a
        WHERE rowid > (
          SELECT MIN(rowid)
-           FROM user_subscriptions b
-          WHERE a.user_id = b.user_id
-            AND a.subforum_id = b.subforum_id
+           FROM reports b
+          WHERE a.reporter_id = b.reporter_id
+            AND a.reason = b.reason
+            AND NVL(a.post_id, -1) = NVL(b.post_id, -1)
+            AND NVL(a.comment_id, -1) = NVL(b.comment_id, -1)
       );
 
-      dbms_output.put_line('Deleted '
-                           || SQL%ROWCOUNT || ' duplicate subscriptions.');
+      dbms_output.put_line('Deleted ' || SQL%ROWCOUNT || ' duplicate reports.');
       COMMIT;
    EXCEPTION
       WHEN OTHERS THEN
-         dbms_output.put_line('Error removing duplicates: ' || sqlerrm);
+         dbms_output.put_line('Error removing duplicate reports: ' || sqlerrm);
          ROLLBACK;
-   END remove_duplicate_subscriptions;
+   END remove_duplicate_reports;
+
+   PROCEDURE remove_duplicate_posts IS
+   BEGIN
+      DELETE FROM posts a
+       WHERE rowid > (
+         SELECT MIN(rowid)
+           FROM posts b
+          WHERE a.user_id = b.user_id
+            AND a.subforum_id = b.subforum_id
+            AND a.title = b.title
+            -- Compare CLOBs safely
+            AND dbms_lob.compare(a.content_text, b.content_text) = 0
+      );
+
+      dbms_output.put_line('Deleted ' || SQL%ROWCOUNT || ' duplicate posts.');
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         dbms_output.put_line('Error removing duplicate posts: ' || sqlerrm);
+         ROLLBACK;
+   END remove_duplicate_posts;
+
+   PROCEDURE remove_duplicate_comments IS
+   BEGIN
+      DELETE FROM comments a
+       WHERE rowid > (
+         SELECT MIN(rowid)
+           FROM comments b
+          WHERE a.user_id = b.user_id
+            AND a.post_id = b.post_id
+            AND a.content = b.content
+      );
+
+      dbms_output.put_line('Deleted ' || SQL%ROWCOUNT || ' duplicate comments.');
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         dbms_output.put_line('Error removing duplicate comments: ' || sqlerrm);
+         ROLLBACK;
+   END remove_duplicate_comments;
 
 END shareit_pkg;
 /
