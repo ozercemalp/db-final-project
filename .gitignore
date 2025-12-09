@@ -8,11 +8,26 @@
 # VSCode Settings
 .vscode/
 
-# MacOS System Files
+# archive
+/archive/
+
+# Virtual Environment
+/venv/
+
+# Python Cache
+__pycache__/
+
+# Dependencies
+node_modules/
+venv/
+
+# Build Output
+dist/
+build/
+
+# Logs
+*.log
+backend_debug.log
+
+# System
 .DS_Store
-
-# Oracle Diagrams
-/diagrams/
-
-# Archived Files
-/Archived/

@@ -1,0 +1,5 @@
+flask
+oracledb
+python-dotenv
+bcrypt
+flask-cors
